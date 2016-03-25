@@ -1,0 +1,10 @@
+<h1>New Dose for <%= @cocktail.name %></h1>
+
+<%= form_for [@cocktail, @dose] do |f| %>
+  <%= f.text_field :description %>
+  <%= f.collection_select :ingredient_id, Ingredient.order(:name), :id, :name, include_blank: true  %>
+  <%= f.submit "add a dose in #{@cocktail.name} " %>
+<% end %>
+
+
+<%= link_to 'Back', cocktail_path(@cocktail) %>
