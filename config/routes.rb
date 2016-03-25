@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   # get 'doses/create'
 
   # get 'doses/destroy'
+  root 'cocktails#index'
   resources :cocktails do
     resources :doses, except: [:destroy]
   end

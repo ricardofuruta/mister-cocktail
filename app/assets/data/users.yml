@@ -1,0 +1,10 @@
+ricardo:
+  user_name: Ricardo Furuta
+  user_picture: 'ricardo.jpg'
+john:
+  user_name: John Doe
+  user_picture: 'john.jpeg'
+paul:
+  user_name: Paul Mole
+  user_picture: 'paul.jpg'
+
