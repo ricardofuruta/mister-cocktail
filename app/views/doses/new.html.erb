@@ -1,9 +1,21 @@
 <h1>New Dose for <%= @cocktail.name %></h1>
 
 <%= form_for [@cocktail, @dose] do |f| %>
-  <%= f.text_field :description %>
-  <%= f.collection_select :ingredient_id, Ingredient.order(:name), :id, :name, include_blank: true  %>
-  <%= f.submit "add a dose in #{@cocktail.name} " %>
+  <% if @dose.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@dose.errors.count, "error") %> prohibited this dose from being saved:</h2>
+
+      <ul>
+        <% @dose.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<%= f.text_field :description %>
+<%= f.collection_select :ingredient_id, Ingredient.order(:name), :id, :name, include_blank: true  %>
+<%= f.submit "add a dose in #{@cocktail.name} " %>
 <% end %>
 
 

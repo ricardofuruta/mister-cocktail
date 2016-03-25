@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   # get 'doses/destroy'
   resources :cocktails do
-    resources :doses
+    resources :doses, except: [:destroy]
   end
 
   resources :doses, only: [:destroy]
