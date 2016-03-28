@@ -1,20 +1,84 @@
-<p id="notice"><%= notice %></p>
-<h2>
-  <strong>Name:</strong>
-  <%= @cocktail.name %>
-</h2>
-<ul>
-  <% @cocktail.doses.each do |dose| %>
-  <li>
-  <%= dose.description %>
-  <%= Ingredient.find(dose.ingredient_id).name %>
-  <%= link_to 'Delete', dose_path(dose), method: :delete %>
-   </li>
-  <%end%>
-</ul>
+<div class="media">
+  <div class="media-body">
+    <div class="media-section">
+      <ul class="list-inline">
+        <li><h2><%= @cocktail.name %></h2></li>
 
+        <li><%= link_to edit_cocktail_path(@cocktail) do%>
+          <i class="fa fa-pencil"></i>
+          <%end%></li>
+        </ul>
 
-<%= link_to 'Edit', edit_cocktail_path(@cocktail) %>
-<%= link_to 'Back', cocktails_path %>
-<%= link_to 'Add a dose', new_cocktail_dose_path(@cocktail) %>
-<p></p>
+        <%= image_tag @cocktail.photo.url(:bright_face) %>
+
+      </div>
+
+      <div class='text-right'>
+        <%= link_to 'Back', cocktails_path,    %>
+        <%= link_to 'Delete', cocktails_path, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger", role: "button" %>
+      </div>
+
+    </div>
+    <div class="media-aside">
+      <div class="media-section">
+        <h2>Share</h2>
+        <ul class="list-inline">
+          <li><a href=""><i class="fa fa-youtube"></i></a></li>
+          <li><a href=""><i class="fa fa-instagram"></i></a></li>
+          <li><a href=""><i class="fa fa-facebook"></i></a></li>
+          <li><a href=""><i class="fa fa-twitter"></i></a></li>
+        </ul>
+      </div>
+      <div class="media-section">
+        <h2>382 upvotes</h2>
+
+      </div>
+      <div class="media-section">
+        <h2>Description</h2>
+        <% @cocktail.doses.each do |dose| %>
+        <p>
+          <%= dose.description %>
+          <%= Ingredient.find(dose.ingredient_id).name %>
+          <%= link_to 'Delete', dose_path(dose), method: :delete %>
+        </p>
+        <%end%>
+        <p>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Add a dose</button>
+
+          <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+            <div class="modal-dialog modal-sm">
+              <div class="modal-content">
+
+                <%= form_for [@cocktail, @dose] do |f| %>
+                <% if @dose.errors.any? %>
+                <div id="error_explanation">
+                  <h2><%= pluralize(@dose.errors.count, "error") %> prohibited this dose from being saved:</h2>
+
+                  <ul>
+                    <% @dose.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                    <% end %>
+                  </ul>
+                </div>
+                <% end %>
+
+                <form class="form-inline">
+                  <div class="form-group">
+                    <%= f.label :description, "Dose: ", class: "col-md-4 control-label" %>
+                    <%= f.text_field :fname, class: "form-control" %>
+                  </div>
+                  <%= f.text_field :description %>
+                  <%= f.collection_select :ingredient_id, Ingredient.order(:name), :id, :name, include_blank: true  %>
+                  <%= f.submit "Add a dose in #{@cocktail.name}", class: "btn btn-warning", role: "button" %>
+                </form>
+
+                <% end %>
+
+              </div>
+            </div>
+          </div>
+        </p>
+
+      </div>
+    </div>
+  </div>
